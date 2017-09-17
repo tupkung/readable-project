@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import {FaAngleDoubleRight, FaSearch} from 'react-icons/lib/fa';
+import {capitalize} from '../utils/helpers';
 
 export default class CategoriesPanel extends Component {
     render() {
+        const {data} = this.props;
+
         return (
             <nav className="panel">
                 <p className="panel-heading">
@@ -16,24 +19,16 @@ export default class CategoriesPanel extends Component {
                     </span>
                     </p>
                 </div>
-                <a className="panel-block">
-                    <span className="panel-icon">
-                        <FaAngleDoubleRight/>
-                    </span>
-                    React
-                </a>
-                <a className="panel-block">
-                    <span className="panel-icon">
-                        <FaAngleDoubleRight/>
-                    </span>
-                    Redux
-                </a>
-                <a className="panel-block">
-                    <span className="panel-icon">
-                        <FaAngleDoubleRight/>
-                    </span>
-                    Udacity
-                </a>
+                {
+                    data.map((category) => (
+                        <a className="panel-block" key={category.path}>
+                            <span className="panel-icon">
+                                <FaAngleDoubleRight/>
+                            </span>
+                            {capitalize(category.name)}
+                        </a>
+                    ))
+                }
             </nav>
         );
     }
