@@ -1,6 +1,7 @@
 import {
     RECEIVE_CATEGORIES,
-    RECEIVE_POSTS
+    RECEIVE_POSTS,
+    REMOVE_POST
 } from '../actions';
 
 import {combineReducers} from 'redux';
@@ -26,6 +27,13 @@ function post (state={posts:[]}, action) {
                 ...state,
                 posts
             };
+        case REMOVE_POST :
+            const {post} = action;
+            const newPosts = state.posts.filter(p => p.id !== post.id && post.deleted)
+            return {
+                ...state,
+                posts: newPosts
+            }
         default :
             return state;
     }

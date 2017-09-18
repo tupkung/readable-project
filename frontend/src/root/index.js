@@ -3,20 +3,14 @@ import CategoriesPanel from '../components/CategoriesPanel';
 import Navbar from '../components/Navbar';
 import PostsCard from '../components/PostsCard';
 import {FaRocket} from 'react-icons/lib/fa';
-import {fetchCategories, fetchPosts} from '../actions';
-import {connect} from 'react-redux';
 
-class Root extends Component {
-    state = {};
+export default class Root extends Component {
 
-    componentDidMount() {
-        const {fetchCategories, fetchPosts} = this.props;
-        fetchCategories();
-        fetchPosts();
-    }
+    
+
+
 
     render() {
-        const {categories, posts} = this.props;
         return (
             <div className="container is-fluid">
                 <Navbar/>
@@ -39,28 +33,13 @@ class Root extends Component {
                 </section>
                 <div className="columns">
                     <div className="column is-one-quarter">
-                        <CategoriesPanel data={categories}/>
+                        <CategoriesPanel/>
                     </div>
                     <div className="column">
-                        <PostsCard data={posts}/>
+                        <PostsCard/>
                     </div>
                 </div>
             </div>
         );
     }    
 }
-
-const mapStateToProps = ({category, post}) => ({
-    categories: category.categories,
-    posts: post.posts
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    fetchCategories: () => dispatch(fetchCategories()),
-    fetchPosts: () => dispatch(fetchPosts())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Root);
