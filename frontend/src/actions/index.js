@@ -25,10 +25,22 @@ export const fetchCategories = () => dispatch => (
         .then(categories => dispatch(receiveCategories(categories)))
 );
 
-export const fetchPosts = () => dispatch => (
+export const fetchPosts = (sortFactor=2, byTimeStamp=false) => dispatch => (
     ReadableAPIUtil
         .fetchPosts()
-        .then(posts => dispatch(receivePosts(posts)))
+        .then(posts => {
+            if(sortFactor > 0) {
+                posts.sort((a,b) => {
+                    const sortValue = (sortFactor === 1) ? 1 : -1;
+                    if(byTimeStamp){
+                        return sortValue * (a.timestamp - b.timestamp);
+                    }
+                    return sortValue * (a.voteScore - b.voteScore);
+                });
+            }
+            
+            dispatch(receivePosts(posts));
+        })
 );
 
 export const deletePost = (id) => dispatch => (
@@ -47,9 +59,9 @@ export const searchCategories = (query) => dispatch => (
         })
 );
 
-export const searchPostsByCategory = (category) => dispatch => (
+export const searchPostsByCategory = (category, sortFactor=2, byTimeStamp=false) => dispatch => (
     ReadableAPIUtil
-        .fetchPosts()
+        .fetchPosts(sortFactor, byTimeStamp)
         .then(posts => {
             const searchPosts = posts.filter(post => post.category === category);
             dispatch(receivePosts(searchPosts));
