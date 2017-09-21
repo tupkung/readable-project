@@ -1,7 +1,9 @@
 import {
     RECEIVE_CATEGORIES,
     RECEIVE_POSTS,
-    REMOVE_POST
+    REMOVE_POST,
+    CREATE_POST,
+    UPDATE_POST_VOTE
 } from '../actions';
 
 import {combineReducers} from 'redux';
@@ -33,7 +35,25 @@ function post (state={posts:[]}, action) {
             return {
                 ...state,
                 posts: newPosts
-            }
+            };
+        case CREATE_POST :
+            const {newPost} = action;
+            const updatedPosts = state.posts.concat([newPost]);
+            return {
+                ...state,
+                posts: updatedPosts
+            };
+        case UPDATE_POST_VOTE :
+            const updatePostsVote = state.posts.map(p => {
+                if(p.id !== action.post.id){
+                    return p;
+                }
+                return Object.assign({}, p, action.post);
+            });
+            return {
+                ...state,
+                posts: updatePostsVote
+            };
         default :
             return state;
     }

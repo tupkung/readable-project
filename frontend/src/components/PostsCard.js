@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {FaInfoCircle, FaTimesCircleO, FaPlusCircle, FaCommentingO} from 'react-icons/lib/fa';
+import {FaInfoCircle, FaTimesCircleO, FaPlusCircle, FaCommentingO, FaChevronUp, FaChevronDown} from 'react-icons/lib/fa';
 import {capitalize} from '../utils/helpers';
 import {connect} from 'react-redux';
-import {deletePost} from '../actions';
-import {fetchPosts} from '../actions';
+import {deletePost, createNewPost, fetchPosts, votePostUp, votePostDown} from '../actions';
+import uuidv1 from 'uuid/v1';
 
 
 class PostsCard extends Component {
@@ -34,6 +34,8 @@ class PostsCard extends Component {
         this.openNewPostModal = this.openNewPostModal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.validateNewPost = this.validateNewPost.bind(this);
+        this.votePostUp = this.votePostUp.bind(this);
+        this.votePostDown = this.votePostDown.bind(this);
     }
 
     componentDidMount() {
@@ -83,8 +85,11 @@ class PostsCard extends Component {
     saveNewPost(event) {
         event.preventDefault();
         if(this.validateNewPost()){
-            const {newPost} = this.state;
-            //TODO: implement post to server
+            let {newPost} = this.state;
+            const {createPost} = this.props;
+            newPost.id = uuidv1();
+            newPost.timestamp = Date.now();
+            createPost(newPost);
             this.closeNewPostModal(event);
         }
     }
@@ -105,6 +110,18 @@ class PostsCard extends Component {
         this.setState({
             newPost
         });
+    }
+
+    votePostUp(event, id){
+        event.preventDefault();
+        const {votePostUp} = this.props;
+        votePostUp(id);
+    }
+
+    votePostDown(event, id){
+        event.preventDefault();
+        const {votePostDown} = this.props;
+        votePostDown(id);
     }
 
     validateNewPost() {
@@ -172,7 +189,31 @@ class PostsCard extends Component {
                                                         <div className="level-item has-text-centered">
                                                             <div>
                                                                 <p className="heading">Votes</p>
+                                                                <p>
+                                                                    <button className="button is-primary is-outlined"style={{borderColor:"transparent", 
+                                                                        borderTopLeftRadius: "30px", 
+                                                                        borderTopRightRadius: "30px", 
+                                                                        borderBottomLeftRadius: "30px", 
+                                                                        borderBottomRightRadius: "30px"}}
+                                                                    >
+                                                                    <span className="icon is-small">
+                                                                        <FaChevronUp onClick={(event) => this.votePostUp(event, post.id)} style={{cursor: "hand"}} />
+                                                                    </span>
+                                                                    </button>
+                                                                </p>
                                                                 <p className="title">{post.voteScore}</p>
+                                                                <p>
+                                                                    <button className="button is-primary is-outlined"style={{borderColor:"transparent", 
+                                                                        borderTopLeftRadius: "30px", 
+                                                                        borderTopRightRadius: "30px", 
+                                                                        borderBottomLeftRadius: "30px", 
+                                                                        borderBottomRightRadius: "30px"}}
+                                                                    >
+                                                                    <span className="icon is-small">
+                                                                        <FaChevronDown onClick={(event) => this.votePostDown(event, post.id)} style={{cursor: "hand"}}/>
+                                                                    </span>
+                                                                    </button>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -295,7 +336,10 @@ const mapStateToProps = ({post, category}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchPosts: () => dispatch(fetchPosts()),
-    removePost: (id) => dispatch(deletePost(id))
+    removePost: (id) => dispatch(deletePost(id)),
+    createPost: (newPost) => dispatch(createNewPost(newPost)),
+    votePostUp: (id) => dispatch(votePostUp(id)),
+    votePostDown: (id) => dispatch(votePostDown(id))
 });
 
 export default connect(
