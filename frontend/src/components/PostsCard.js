@@ -4,6 +4,7 @@ import {capitalize} from '../utils/helpers';
 import {connect} from 'react-redux';
 import {deletePost, createNewPost, fetchPosts, votePostUp, votePostDown} from '../actions';
 import uuidv1 from 'uuid/v1';
+import moment from 'moment';
 
 
 class PostsCard extends Component {
@@ -179,7 +180,7 @@ class PostsCard extends Component {
                                                     <br/>
                                                     <small>by {post.author} </small> <span className="tag is-info is-rounded">{capitalize(post.category)}</span>
                                                     <br/>
-                                                    <small>{(new Date(post.timestamp)).toString()}</small>
+                                                    <small>{(moment(new Date(post.timestamp)).endOf('day').fromNow()).toString()}</small>
                                                 </p>
                                             </div>
                                             </div>
