@@ -14,6 +14,8 @@ import {deletePost,
 import uuidv1 from 'uuid/v1';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
+import EditPostFormModal from '../components/EditPostFormModal';
+import NewPostFormModal from '../components/NewPostFormModal';
 
 
 class PostsCard extends Component {
@@ -345,95 +347,22 @@ class PostsCard extends Component {
                     ))
                 }
 
-                <div className={"modal " + (isNewPostClick ? "is-active" : "")}>
-                    <div className="modal-background"></div>
-                    <div className="modal-card">
-                        <header className="modal-card-head">
-                            <p className="modal-card-title">New Post</p>
-                            <button className="delete" aria-label="close" onClick={this.closeNewPostModal}></button>
-                        </header>
-                        <form onSubmit={this.saveNewPost}>
-                        <section className="modal-card-body">
-                            
-                            <div className="field">
-                                <label className="label">Title</label>
-                                <div className="control">
-                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Title" value={this.state.postData.title} onChange={this.handleInputChange}/>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.titleIsValid ? "hidden" : "")}>This title is required</p>
-                            </div>
-                            <div className="field">
-                                <label className="label">Body</label>
-                                <div className="control">
-                                    <textarea name="body" className={"textarea "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Body" value={this.state.postData.body} onChange={this.handleInputChange}></textarea>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.bodyIsValid ? "hidden" : "")}>This body is required</p>
-                            </div>
-                            <div className="field">
-                                <label className="label">Category</label>
-                                <div className="control">
-                                <div className={"select " + (this.state.postData.categoryIsValid ? "": "is-danger")}>
-                                    <select name="category" value={this.state.postData.category} onChange={this.handleInputChange}>
-                                        <option value="">---Select Category---</option>
-                                        {
-                                            categories.map(category=>(
-                                                <option key={category.name} value={category.name}>{capitalize(category.name)}</option>
-                                            ))
-                                        }
-                                    </select>
-                                    </div>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.categoryIsValid ? "hidden" : "")}>This category is required</p>
-                            </div>
-                            <div className="field">
-                                <label className="label">Author</label>
-                                <div className="control">
-                                    <input name="author" className={"input " + (this.state.postData.authorIsValid ? "" : "is-danger")} type="text" placeholder="Author" value={this.state.postData.author} onChange={this.handleInputChange}/>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.authorIsValid ? "hidden" : "")}>This author is required</p>
-                            </div>
-                            
-                        </section>
-                        <footer className="modal-card-foot">
-                            <button type="submit" className="button is-success">Save</button>
-                            <button className="button" onClick={this.closeNewPostModal}>Cancel</button>
-                        </footer>
-                        </form>
-                    </div>
-                </div>
+                <NewPostFormModal
+                    isNewPostClick={isNewPostClick}
+                    postData={this.state.postData}
+                    closeNewPostModal={this.closeNewPostModal}
+                    saveNewPost={this.saveNewPost}
+                    handleInputChange={this.handleInputChange}
+                    categories={categories}
+                />
 
-                <div className={"modal " + (isEditPostClick ? "is-active" : "")}>
-                    <div className="modal-background"></div>
-                    <div className="modal-card">
-                        <header className="modal-card-head">
-                            <p className="modal-card-title">Edit Post</p>
-                            <button className="delete" aria-label="close" onClick={this.closeEditPostModal}></button>
-                        </header>
-                        <form onSubmit={this.saveEditPost}>
-                        <section className="modal-card-body">
-                            
-                            <div className="field">
-                                <label className="label">Title</label>
-                                <div className="control">
-                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Title" value={this.state.postData.title} onChange={this.handleInputChange}/>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.titleIsValid ? "hidden" : "")}>This title is required</p>
-                            </div>
-                            <div className="field">
-                                <label className="label">Body</label>
-                                <div className="control">
-                                    <textarea name="body" className={"textarea "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Body" value={this.state.postData.body} onChange={this.handleInputChange}></textarea>
-                                </div>
-                                <p className={"help is-danger " + (this.state.postData.bodyIsValid ? "hidden" : "")}>This body is required</p>
-                            </div>
-                        </section>
-                        <footer className="modal-card-foot">
-                            <button type="submit" className="button is-success">Save</button>
-                            <button className="button" onClick={this.closeEditPostModal}>Cancel</button>
-                        </footer>
-                        </form>
-                    </div>
-                </div>
+                <EditPostFormModal 
+                    isEditPostClick={isEditPostClick} 
+                    postData={this.state.postData} 
+                    closeEditPostModal={this.closeEditPostModal} 
+                    saveEditPost={this.saveEditPost}
+                    handleInputChange={this.handleInputChange}
+                />
 
                 <div className={"modal " + (isRemoveClick ? "is-active" : "")}>
                     <div className="modal-background"></div>
