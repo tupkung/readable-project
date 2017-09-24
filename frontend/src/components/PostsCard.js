@@ -16,6 +16,7 @@ import moment from 'moment';
 import {withRouter} from 'react-router-dom';
 import EditPostFormModal from '../components/EditPostFormModal';
 import NewPostFormModal from '../components/NewPostFormModal';
+import ConfirmRemovePostModal from '../components/ConfirmRemovePostModal';
 
 
 class PostsCard extends Component {
@@ -364,22 +365,11 @@ class PostsCard extends Component {
                     handleInputChange={this.handleInputChange}
                 />
 
-                <div className={"modal " + (isRemoveClick ? "is-active" : "")}>
-                    <div className="modal-background"></div>
-                    <div className="modal-card">
-                        <header className="modal-card-head">
-                        <p className="modal-card-title">Please confirm</p>
-                        <button className="delete" aria-label="close" onClick={this.closeConfirmModal}></button>
-                        </header>
-                        <section className="modal-card-body">
-                            <p className="title has-text-danger">Do you want to delete post?</p>
-                        </section>
-                        <footer className="modal-card-foot">
-                        <button className="button is-success" onClick={this.removePost}>Yes</button>
-                        <button className="button" onClick={this.closeConfirmModal}>Cancel</button>
-                        </footer>
-                    </div>
-                </div>
+                <ConfirmRemovePostModal
+                    isRemoveClick={isRemoveClick}
+                    closeConfirmModal={this.closeConfirmModal}
+                    removePost={this.removePost}
+                />
 
                 
             </div>
