@@ -1,10 +1,19 @@
 import React, {Component} from 'react';
-import {FaInfoCircle, FaTimesCircleO, FaPlusCircle, FaCommentingO, FaChevronUp, FaChevronDown, FaEdit} from 'react-icons/lib/fa';
+import {FaInfoCircle, FaTimesCircleO, FaPlusCircle, FaCommentingO, FaChevronUp, FaChevronDown, FaEdit,  FaArrowDown, FaArrowUp} from 'react-icons/lib/fa';
 import {capitalize} from '../utils/helpers';
 import {connect} from 'react-redux';
-import {deletePost, createNewPost, editPost, fetchPosts, votePostUp, votePostDown} from '../actions';
+import {deletePost, 
+    createNewPost, 
+    editPost, 
+    fetchPosts, 
+    votePostUp, 
+    votePostDown,
+    changeCategoryFilter,
+    changeOrderVoteScore,
+    changeOrderTimeStamp} from '../actions';
 import uuidv1 from 'uuid/v1';
 import moment from 'moment';
+import {withRouter} from 'react-router-dom';
 
 
 class PostsCard extends Component {
@@ -42,6 +51,9 @@ class PostsCard extends Component {
         this.votePostUp = this.votePostUp.bind(this);
         this.votePostDown = this.votePostDown.bind(this);
         this.clearPostForm = this.clearPostForm.bind(this);
+        this.clearFilterCategory = this.clearFilterCategory.bind(this);
+        this.orderByVoteScore = this.orderByVoteScore.bind(this);
+        this.orderByTimeStamp = this.orderByTimeStamp.bind(this);
     }
 
     componentDidMount() {
@@ -180,39 +192,66 @@ class PostsCard extends Component {
         return result;
     }
 
+    clearFilterCategory(event) {
+        event.preventDefault();
+        const {changeCategoryFilter} = this.props;
+        changeCategoryFilter("");
+    }
+
+    orderByVoteScore(event) {
+        event.preventDefault();
+        const {changeOrderVoteScore} = this.props;
+        changeOrderVoteScore();
+    }
+
+    orderByTimeStamp(event) {
+        event.preventDefault();
+        const {changeOrderTimeStamp} = this.props;
+        changeOrderTimeStamp();
+    }
+
     render() {
-        const {posts, categories} = this.props;
+        const {posts, categories, orderVoteScore, orderTimeStamp} = this.props;
         const {isRemoveClick, isNewPostClick, isEditPostClick} = this.state;
 
         return (
             <div>
-                <nav className="navbar is-transparent">
-                    <div className="navbar-end">
-                        <div className="navbar-item">
-                            <div className="field is-grouped">
-                                <p className="control">
-                                    <button className="button" 
-                                        style={{backgroundColor: "#55acee", 
-                                            color: "white", 
-                                            borderColor: "transparent"}}
-                                        onClick={this.openNewPostModal}>
-                                        <span className="icon" >
-                                            <FaPlusCircle/>
-                                        </span>
-                                        <span>
-                                            New Post
-                                        </span>
-                                    </button>
-                                </p>    
-                            </div>
+                <nav className="panel">
+                <p className="panel-heading">
+                    <div className="columns is-mobile">
+                        <div className="column">
+                            Posts
                         </div>
-                        
+
+                        <div className="column" style={{textAlign: "right"}}>
+                        <button className="button " 
+                            style={{backgroundColor: "#55acee", 
+                                color: "white", 
+                                borderColor: "transparent"}}
+                            onClick={this.openNewPostModal}>
+                            <span className="icon" >
+                                <FaPlusCircle/>
+                            </span>
+                            <span>
+                                New Post
+                            </span>
+                        </button>
                     </div>
+                    </div>
+                    
+                    
+                </p>
+                <p className="panel-tabs">
+                    <a onClick={this.clearFilterCategory}>show all</a>
+                    <a onClick={this.orderByVoteScore}>vote score {orderVoteScore === "" ? "" : (orderVoteScore === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
+                    <a onClick={this.orderByTimeStamp}>timestamp {orderTimeStamp === "" ? "" : (orderTimeStamp === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
+                </p>
                 </nav>
+                
                 {
                     posts.map(post=>(
-                        <div className="card" style={(post.isNew ? {backgroundColor: "#F5F5F5"} : {})} key={post.id}>
-                            <div className="card-content">
+                        <div className="box " style={(post.isNew ? {backgroundColor: "#F5F5F5"} : {})} key={post.id}>
+                            
                                 <div className="media">
                                     <div className="media-left">
                                         <figure className="icon is-48x48" style={{color:"#00D1B2"}}>
@@ -226,9 +265,8 @@ class PostsCard extends Component {
                                                 <p>
                                                     <strong>{post.title}</strong>
                                                     <br/>
-                                                    <small>by {post.author} </small> <span className="tag is-info is-rounded">{capitalize(post.category)}</span>
-                                                    <br/>
-                                                    <small>{(moment(new Date(post.timestamp)).endOf('day').fromNow()).toString()}</small>
+                                                    <small>submitted {moment(new Date(post.timestamp)).startOf('hour').fromNow()} by {post.author} </small> 
+                                                    <span className="tag is-info is-rounded">{capitalize(post.category)}</span>
                                                 </p>
                                             </div>
                                             </div>
@@ -303,7 +341,6 @@ class PostsCard extends Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     ))
                 }
@@ -321,14 +358,14 @@ class PostsCard extends Component {
                             <div className="field">
                                 <label className="label">Title</label>
                                 <div className="control">
-                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Text input" value={this.state.postData.title} onChange={this.handleInputChange}/>
+                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Title" value={this.state.postData.title} onChange={this.handleInputChange}/>
                                 </div>
                                 <p className={"help is-danger " + (this.state.postData.titleIsValid ? "hidden" : "")}>This title is required</p>
                             </div>
                             <div className="field">
                                 <label className="label">Body</label>
                                 <div className="control">
-                                    <input name="body" className={"input "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Text input" value={this.state.postData.body} onChange={this.handleInputChange}/>
+                                    <textarea name="body" className={"textarea "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Body" value={this.state.postData.body} onChange={this.handleInputChange}></textarea>
                                 </div>
                                 <p className={"help is-danger " + (this.state.postData.bodyIsValid ? "hidden" : "")}>This body is required</p>
                             </div>
@@ -351,7 +388,7 @@ class PostsCard extends Component {
                             <div className="field">
                                 <label className="label">Author</label>
                                 <div className="control">
-                                    <input name="author" className={"input " + (this.state.postData.authorIsValid ? "" : "is-danger")} type="text" placeholder="Text input" value={this.state.postData.author} onChange={this.handleInputChange}/>
+                                    <input name="author" className={"input " + (this.state.postData.authorIsValid ? "" : "is-danger")} type="text" placeholder="Author" value={this.state.postData.author} onChange={this.handleInputChange}/>
                                 </div>
                                 <p className={"help is-danger " + (this.state.postData.authorIsValid ? "hidden" : "")}>This author is required</p>
                             </div>
@@ -378,14 +415,14 @@ class PostsCard extends Component {
                             <div className="field">
                                 <label className="label">Title</label>
                                 <div className="control">
-                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Text input" value={this.state.postData.title} onChange={this.handleInputChange}/>
+                                    <input name="title" className={"input "+(this.state.postData.titleIsValid ? "" : "is-danger")} type="text" placeholder="Title" value={this.state.postData.title} onChange={this.handleInputChange}/>
                                 </div>
                                 <p className={"help is-danger " + (this.state.postData.titleIsValid ? "hidden" : "")}>This title is required</p>
                             </div>
                             <div className="field">
                                 <label className="label">Body</label>
                                 <div className="control">
-                                    <input name="body" className={"input "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Text input" value={this.state.postData.body} onChange={this.handleInputChange}/>
+                                    <textarea name="body" className={"textarea "+(this.state.postData.bodyIsValid ? "" : "is-danger")} type="text" placeholder="Body" value={this.state.postData.body} onChange={this.handleInputChange}></textarea>
                                 </div>
                                 <p className={"help is-danger " + (this.state.postData.bodyIsValid ? "hidden" : "")}>This body is required</p>
                             </div>
@@ -435,10 +472,13 @@ const mapDispatchToProps = (dispatch) => ({
     createPost: (postData) => dispatch(createNewPost(postData)),
     votePostUp: (id) => dispatch(votePostUp(id)),
     votePostDown: (id) => dispatch(votePostDown(id)),
-    editPost: (postData) => dispatch(editPost(postData))
+    editPost: (postData) => dispatch(editPost(postData)),
+    changeCategoryFilter: (category) => dispatch(changeCategoryFilter(category)),
+    changeOrderVoteScore: () => dispatch(changeOrderVoteScore()),
+    changeOrderTimeStamp: () => dispatch(changeOrderTimeStamp())
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(PostsCard);
+)(PostsCard));

@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import {FaAngleDoubleRight, FaSearch, FaArrowDown, FaArrowUp} from 'react-icons/lib/fa';
+import {FaAngleDoubleRight, FaSearch} from 'react-icons/lib/fa';
 import {capitalize} from '../utils/helpers';
 import {fetchCategories, 
     searchCategories, 
-    changeCategoryFilter,
-    changeOrderVoteScore,
-    changeOrderTimeStamp} from '../actions';
+    changeCategoryFilter} from '../actions';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 class CategoriesPanel extends Component {
 
@@ -17,9 +16,6 @@ class CategoriesPanel extends Component {
 
         this.onSearch = this.onSearch.bind(this);
         this.selectCategory = this.selectCategory.bind(this);
-        this.clearFilterCategory = this.clearFilterCategory.bind(this);
-        this.orderByVoteScore = this.orderByVoteScore.bind(this);
-        this.orderByTimeStamp = this.orderByTimeStamp.bind(this);
     }
 
 
@@ -47,23 +43,6 @@ class CategoriesPanel extends Component {
         changeCategoryFilter(category.name);
     }
 
-    clearFilterCategory(event) {
-        event.preventDefault();
-        const {changeCategoryFilter} = this.props;
-        changeCategoryFilter("");
-    }
-
-    orderByVoteScore(event) {
-        event.preventDefault();
-        const {changeOrderVoteScore} = this.props;
-        changeOrderVoteScore();
-    }
-
-    orderByTimeStamp(event) {
-        event.preventDefault();
-        const {changeOrderTimeStamp} = this.props;
-        changeOrderTimeStamp();
-    }
 
     render() {
         const {categories, orderVoteScore, orderTimeStamp} = this.props;
@@ -72,11 +51,6 @@ class CategoriesPanel extends Component {
             <nav className="panel">
                 <p className="panel-heading">
                     Categories
-                </p>
-                <p className="panel-tabs">
-                    <a onClick={this.clearFilterCategory}>show all</a>
-                    <a onClick={this.orderByVoteScore}>vote score {orderVoteScore === "" ? "" : (orderVoteScore === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
-                    <a onClick={this.orderByTimeStamp}>timestamp {orderTimeStamp === "" ? "" : (orderTimeStamp === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
                 </p>
                 <div className="panel-block">
                     <p className="control has-icons-left">
@@ -97,11 +71,6 @@ class CategoriesPanel extends Component {
                         </a>
                     ))
                 }
-                {/* <div className="panel-block">
-                    <button className="button is-primary is-outlined is-fullwidth" >
-                        reset all filters
-                    </button>
-                </div> */}
             </nav>
         );
     }
@@ -116,12 +85,10 @@ const mapStateToProps = ({category, post}) => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchCategories: () => dispatch(fetchCategories()),
     searchCategories: (query) => dispatch(searchCategories(query)),
-    changeCategoryFilter: (category) => dispatch(changeCategoryFilter(category)),
-    changeOrderVoteScore: () => dispatch(changeOrderVoteScore()),
-    changeOrderTimeStamp: () => dispatch(changeOrderTimeStamp())
+    changeCategoryFilter: (category) => dispatch(changeCategoryFilter(category))
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(CategoriesPanel);
+)(CategoriesPanel));

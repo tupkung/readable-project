@@ -143,7 +143,6 @@ export const editPost = (editPost) => dispatch => (
         ReadableAPIUtil
             .updatePost(editPost)
             .then(post => {
-                console.log(post);
                 dispatch(updatePost(post))
             })
     );
