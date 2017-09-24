@@ -2,15 +2,18 @@ const defaultHeaders = new Headers();
 defaultHeaders.append("Content-Type", "application/json");
 defaultHeaders.append("Authorization", "Nothing to do");
 
-const defaultGetOptions = {
-    method: 'GET',
+const defaultOptions = {
     headers: defaultHeaders,
     mode: 'cors'
 };
 
-const defaultDeleteOptions = Object.assign(Object.assign({}, defaultGetOptions), {method: 'DELETE'});
+const defaultGetOptions = Object.assign(Object.assign({}, defaultOptions), {method: 'GET'});
 
-const defaultPostOptions = Object.assign(Object.assign({}, defaultGetOptions), {method: "POST"});
+const defaultDeleteOptions = Object.assign(Object.assign({}, defaultOptions), {method: 'DELETE'});
+
+const defaultPostOptions = Object.assign(Object.assign({}, defaultOptions), {method: "POST"});
+
+const defaultPutOptions = Object.assign(Object.assign({}, defaultOptions), {method: "PUT"});
 
 export function fetchCategories() {
     return fetch(`http://localhost:3001/categories`, defaultGetOptions)
@@ -56,4 +59,13 @@ export function createNewPost(newPost) {
     const newPostOptions = Object.assign({}, defaultPostOptions, {body: JSON.stringify(newPost)});
     return fetch(`http://localhost:3001/posts`, newPostOptions)
         .then((res) => res.json());
+}
+
+export function updatePost(updatePost) {
+    let data = new FormData();
+    data.append("json", JSON.stringify(updatePost));
+    const newPutOptions = Object.assign({}, defaultPutOptions, {body: JSON.stringify(updatePost)});
+    return fetch(`http://localhost:3001/posts/${updatePost.id}`, newPutOptions)
+        .then((res) => res.json());
+
 }
