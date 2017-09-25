@@ -10,6 +10,9 @@ export const UPDATE_ORDER_TIME_STAMP = 'UPDATE_ORDER_TIME_STAMP';
 export const UPDATE_ORDER_VOTE_SCORE = 'UPDATE_ORDER_VOTE_SCORE';
 export const UPDATE_CATEGORY_FILTER = 'UPDATE_CATEGORY_FILTER';
 
+export const RECEIVE_POST_DETAIL = 'RECEIVE_POST_DETAIL';
+export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
+
 export const receiveCategories = (categories) => ({
         type: RECEIVE_CATEGORIES,
         categories
@@ -19,6 +22,16 @@ export const receivePosts = (posts) => ({
         type: RECEIVE_POSTS,
         posts
     });
+
+export const receivePostDetail = (post) => ({
+        type: RECEIVE_POST_DETAIL,
+        post
+});
+
+export const receivePostComments = (comment) => ({
+        type: RECEIVE_POST_COMMENTS,
+        comment
+});
 
 export const removePost = (post) => ({
         type: REMOVE_POST,
@@ -157,4 +170,17 @@ export const votePostDown = (id) => dispatch => (
         ReadableAPIUtil
             .votePostDown(id)
             .then(post => dispatch(updatePostVote(post)))
+    );
+
+export const fetchPost = (id) => dispatch => (
+        ReadableAPIUtil
+            .fetchPost(id)
+            .then(post => {
+                dispatch(receivePostDetail(post));})
+    );
+
+export const fetchPostComments = (id) => dispatch => (
+        ReadableAPIUtil
+            .fetchPostComments(id)
+            .then(post => dispatch(receivePostComments(id)))
     );

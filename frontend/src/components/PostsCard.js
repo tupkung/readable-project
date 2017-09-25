@@ -13,7 +13,7 @@ import {deletePost,
     changeOrderTimeStamp} from '../actions';
 import uuidv1 from 'uuid/v1';
 import moment from 'moment';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 import EditPostFormModal from '../components/EditPostFormModal';
 import NewPostFormModal from '../components/NewPostFormModal';
 import ConfirmRemovePostModal from '../components/ConfirmRemovePostModal';
@@ -266,7 +266,7 @@ class PostsCard extends Component {
                                             <div className="column is-10">
                                             <div className="content">
                                                 <p>
-                                                    <strong>{post.title}</strong>
+                                                    <strong><Link to={`/postDetail/${post.id}`}>{post.title}</Link></strong>
                                                     <br/>
                                                     <small>submitted {moment(new Date(post.timestamp)).startOf('hour').fromNow()} by {post.author} </small> 
                                                     <span className="tag is-info is-rounded">{capitalize(post.category)}</span>

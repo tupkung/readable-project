@@ -6,11 +6,6 @@ import {FaRocket} from 'react-icons/lib/fa';
 
 
 export default class Root extends Component {
-
-    
-
-
-
     render() {
         return (
             <div className="container is-fluid">

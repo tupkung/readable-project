@@ -26,6 +26,11 @@ export function fetchPosts() {
         .then((res) => res.json());
 }
 
+export function fetchPost(id) {
+    return fetch(`http://localhost:3001/posts/${id}`, defaultGetOptions)
+        .then((res) => res.json());
+}
+
 export function fetchPostsByCategory(category) {
     return fetch(`http://localhost:3001/${category}/posts`, defaultGetOptions)
         .then((res) => res.json());

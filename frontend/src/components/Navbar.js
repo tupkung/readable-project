@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../logo.svg';
+import {Link} from 'react-router-dom';
 
 export default class Navbar extends React.Component {
     render(){
@@ -7,7 +8,7 @@ export default class Navbar extends React.Component {
             <nav className="navbar is-dark">
                     <div className="navbar-brand">
                         <div className="navbar-item" >
-                            <img src={logo} width="60" height="60" alt="" />
+                            <Link to="/"><img src={logo} width="60" height="60" alt="" /></Link>
                         </div>
                     </div>
                     <div className="navbar-start">

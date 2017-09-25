@@ -7,7 +7,9 @@ import {
     UPDATE_POST_VOTE,
     UPDATE_ORDER_TIME_STAMP,
     UPDATE_ORDER_VOTE_SCORE,
-    UPDATE_CATEGORY_FILTER
+    UPDATE_CATEGORY_FILTER,
+    RECEIVE_POST_COMMENTS,
+    RECEIVE_POST_DETAIL
 } from '../actions';
 
 import {combineReducers} from 'redux';
@@ -96,7 +98,35 @@ function post (state={posts:[], orderTimeStamp: '', orderVoteScore: 'desc', cate
     }
 }
 
+function postDetail (state={}, action) {
+    switch(action.type){
+        case RECEIVE_POST_DETAIL:
+            const {post} = action;
+            return {
+                ...state,
+                post
+            }
+        default:
+            return state;
+    }
+}
+
+function comment (state={comments:[]}, action) {
+    switch(action.type){
+        case RECEIVE_POST_COMMENTS:
+            const comments = action.comments;
+            return {
+                ...state,
+                comments
+            };
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
     category,
-    post
+    post,
+    postDetail,
+    comment
 })
