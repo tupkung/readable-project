@@ -99,13 +99,18 @@ function post (state={posts:[], orderTimeStamp: '', orderVoteScore: 'desc', cate
 }
 
 function postDetail (state={}, action) {
+    const {post} = action;
     switch(action.type){
         case RECEIVE_POST_DETAIL:
-            const {post} = action;
             return {
                 ...state,
                 post
-            }
+            };
+        case UPDATE_POST_VOTE:
+            return {
+                ...state,
+                post
+            };
         default:
             return state;
     }

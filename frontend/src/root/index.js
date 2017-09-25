@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import CategoriesPanel from '../components/CategoriesPanel';
 import Navbar from '../components/Navbar';
-import PostsCard from '../components/PostsCard';
+import PostList from '../components/PostList';
 import {FaRocket} from 'react-icons/lib/fa';
 
 
@@ -32,7 +32,7 @@ export default class Root extends Component {
                         <CategoriesPanel/>
                     </div>
                     <div className="column">
-                        <PostsCard/>
+                        <PostList/>
                     </div>
                 </div>
             </div>

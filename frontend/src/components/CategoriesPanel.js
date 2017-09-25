@@ -45,7 +45,7 @@ class CategoriesPanel extends Component {
 
 
     render() {
-        const {categories, orderVoteScore, orderTimeStamp} = this.props;
+        const {categories} = this.props;
 
         return (
             <nav className="panel">
@@ -77,9 +77,7 @@ class CategoriesPanel extends Component {
 }
 
 const mapStateToProps = ({category, post}) => ({
-    categories: category.categories,
-    orderVoteScore: post.orderVoteScore,
-    orderTimeStamp: post.orderTimeStamp
+    categories: category.categories
 });
 
 const mapDispatchToProps = (dispatch) => ({

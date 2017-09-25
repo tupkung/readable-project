@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import Navbar from '../components/Navbar';
 import {fetchPost, fetchPostComments} from '../actions';
 import {connect} from 'react-redux'; 
-import {capitalize} from '../utils/helpers';
-import moment from 'moment';
-import {withRouter, Link} from 'react-router-dom';
-import {FaInfoCircle, FaTimesCircleO, FaPlusCircle, FaCommentingO, FaChevronUp, FaChevronDown, FaEdit,  FaArrowDown, FaArrowUp} from 'react-icons/lib/fa';
+import {withRouter} from 'react-router-dom';
+import PostCard from '../components/PostCard';
+
 
 
 class PostDetail extends Component {
@@ -29,97 +28,7 @@ class PostDetail extends Component {
                     </p>
                     {/* <div className="panel-block"> */}
                     { (post !== undefined) ?
-                    <div className="box">
-                        <div className="media">
-                            <div className="media-left">
-                            <figure className="icon is-48x48" style={{color:"#00D1B2"}}>
-                                <FaInfoCircle size={48}/>
-                            </figure>
-                            </div>
-                            <div className="media-content">
-                                <div className="columns">
-                                    <div className="column is-10">
-                                    <div className="content">
-                                        <p>
-                                            <strong><Link to={`/postDetail/${post.id}`}>{post.title}</Link></strong>
-                                            <br/>
-                                            <small>submitted {moment(new Date(post.timestamp)).startOf('hour').fromNow()} by {post.author} </small> 
-                                            <span className="tag is-info is-rounded">{capitalize(post.category)}</span>
-                                        </p>
-                                    </div>
-                                    </div>
-                                    <div className="column">
-                                        <nav className="level">
-                                            <div className="level-left">
-                                                <div className="level-item has-text-centered">
-                                                    <div>
-                                                        <p className="heading">Votes</p>
-                                                        <p>
-                                                            <button className="button is-primary is-outlined"style={{borderColor:"transparent", 
-                                                                borderTopLeftRadius: "30px", 
-                                                                borderTopRightRadius: "30px", 
-                                                                borderBottomLeftRadius: "30px", 
-                                                                borderBottomRightRadius: "30px"}}
-                                                            >
-                                                            <span className="icon is-small">
-                                                                <FaChevronUp onClick={(event) => this.votePostUp(event, post.id)} style={{cursor: "hand"}} />
-                                                            </span>
-                                                            </button>
-                                                        </p>
-                                                        <p className="title">{post.voteScore}</p>
-                                                        <p>
-                                                            <button className="button is-primary is-outlined"style={{borderColor:"transparent", 
-                                                                borderTopLeftRadius: "30px", 
-                                                                borderTopRightRadius: "30px", 
-                                                                borderBottomLeftRadius: "30px", 
-                                                                borderBottomRightRadius: "30px"}}
-                                                            >
-                                                            <span className="icon is-small">
-                                                                <FaChevronDown onClick={(event) => this.votePostDown(event, post.id)} style={{cursor: "hand"}}/>
-                                                            </span>
-                                                            </button>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </nav>
-                                    </div>
-                                    <div className="column" style={{paddingTop: "25px"}}>
-                                        <button className="button is-primary is-outlined"style={{borderColor:"transparent", 
-                                                borderTopLeftRadius: "30px", 
-                                                borderTopRightRadius: "30px", 
-                                                borderBottomLeftRadius: "30px", 
-                                                borderBottomRightRadius: "30px"}}
-                                                >
-                                                <span className="icon is-small">
-                                                    <FaCommentingO size={28}/>
-                                                </span>
-                                        </button>
-                                        <button className="button is-success is-outlined" style={{borderColor:"transparent", 
-                                            borderTopLeftRadius: "30px", 
-                                            borderTopRightRadius: "30px", 
-                                            borderBottomLeftRadius: "30px", 
-                                            borderBottomRightRadius: "30px"}} onClick={(event) => this.openEditPostModal(event,post)}>
-                                            
-                                            <span className="icon is-small">
-                                                <FaEdit size={28}/>
-                                            </span>
-                                        </button>
-                                        <button className="button is-danger is-outlined" style={{borderColor:"transparent", 
-                                            borderTopLeftRadius: "30px", 
-                                            borderTopRightRadius: "30px", 
-                                            borderBottomLeftRadius: "30px", 
-                                            borderBottomRightRadius: "30px"}} onClick={(event) => this.openConfirmModal(event,post)}>
-                                            
-                                            <span className="icon is-small">
-                                                <FaTimesCircleO size={28}/>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+                        <PostCard post={post}/>
                         : ""}
                     {/* </div>  */}
                     
