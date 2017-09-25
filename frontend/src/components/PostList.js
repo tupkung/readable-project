@@ -104,9 +104,12 @@ class PostList extends Component {
                 </nav>
                 
                 {
-                    posts.map(post=>(
-                        <PostCard post={post} key={post.id}/>
-                    ))
+                    posts.map(post=>{
+                        post.body = null;
+                        return (
+                            <PostCard post={post} key={post.id}/>
+                        );
+                    })
                 }
 
                 <NewPostFormModal

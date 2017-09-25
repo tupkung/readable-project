@@ -28,9 +28,9 @@ export const receivePostDetail = (post) => ({
         post
 });
 
-export const receivePostComments = (comment) => ({
+export const receivePostComments = (comments) => ({
         type: RECEIVE_POST_COMMENTS,
-        comment
+        comments
 });
 
 export const removePost = (post) => ({
@@ -182,5 +182,5 @@ export const fetchPost = (id) => dispatch => (
 export const fetchPostComments = (id) => dispatch => (
         ReadableAPIUtil
             .fetchPostComments(id)
-            .then(post => dispatch(receivePostComments(id)))
+            .then(comments => dispatch(receivePostComments(comments)))
     );

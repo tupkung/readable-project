@@ -111,6 +111,17 @@ function postDetail (state={}, action) {
                 ...state,
                 post
             };
+        case REMOVE_POST:
+            return {
+                ...state,
+                post: null
+            };
+        case UPDATE_POST:
+            const {updatePost} = action;
+            return {
+                ...state,
+                post: updatePost
+            };
         default:
             return state;
     }

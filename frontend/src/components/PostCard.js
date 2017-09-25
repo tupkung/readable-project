@@ -7,7 +7,7 @@ import {deletePost,
     votePostUp, 
     votePostDown} from '../actions';
 import moment from 'moment';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter, Link, Redirect} from 'react-router-dom';
 import ConfirmRemovePostModal from '../components/ConfirmRemovePostModal';
 import EditPostFormModal from '../components/EditPostFormModal';
 
@@ -152,9 +152,11 @@ class PostCard extends Component {
     render() {
         const {post} = this.props;
         const {isEditPostClick, isRemoveClick} = this.state;
-
+        if(!post){
+            return <Redirect to="/"/>
+        }
         return (
-
+            
             <div>
             <div className="box " style={(post.isNew ? {backgroundColor: "#F5F5F5"} : {})} key={post.id}>
             
@@ -174,6 +176,9 @@ class PostCard extends Component {
                                     <small>submitted {moment(new Date(post.timestamp)).startOf('hour').fromNow()} by {post.author} </small> 
                                     <span className="tag is-info is-rounded">{capitalize(post.category)}</span>
                                 </p>
+                                <p>
+                                    {post.body ? post.body : ""}
+                                </p>
                             </div>
                             </div>
                             <div className="column">
@@ -188,9 +193,10 @@ class PostCard extends Component {
                                                         borderTopRightRadius: "30px", 
                                                         borderBottomLeftRadius: "30px", 
                                                         borderBottomRightRadius: "30px"}}
+                                                        onClick={(event) => this.votePostUp(event, post.id)}
                                                     >
                                                     <span className="icon is-small">
-                                                        <FaChevronUp onClick={(event) => this.votePostUp(event, post.id)} style={{cursor: "hand"}} />
+                                                        <FaChevronUp  style={{cursor: "hand"}} />
                                                     </span>
                                                     </button>
                                                 </p>
@@ -201,9 +207,10 @@ class PostCard extends Component {
                                                         borderTopRightRadius: "30px", 
                                                         borderBottomLeftRadius: "30px", 
                                                         borderBottomRightRadius: "30px"}}
+                                                        onClick={(event) => this.votePostDown(event, post.id)}
                                                     >
                                                     <span className="icon is-small">
-                                                        <FaChevronDown onClick={(event) => this.votePostDown(event, post.id)} style={{cursor: "hand"}}/>
+                                                        <FaChevronDown  style={{cursor: "hand"}}/>
                                                     </span>
                                                     </button>
                                                 </p>
