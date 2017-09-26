@@ -6,20 +6,34 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import CommentList from '../components/CommentList';
+import CommentNewFormModal from '../components/CommentNewFormModal';
 
 
 
 class PostDetail extends Component {
 
+    state = {
+        isClickNewComment: false
+    };
+
     constructor(props){
         super(props);
 
         this.openNewCommentModal = this.openNewCommentModal.bind(this);
+        this.onCloseCommentModal = this.onCloseCommentModal.bind(this);
     }
 
-    openNewCommentModal(){
-        console.log("open modal");
-        //TODO: implement open modal
+    openNewCommentModal(event){
+        event.preventDefault();
+        this.setState({
+            isClickNewComment: true
+        });
+    }
+
+    onCloseCommentModal() {
+        this.setState({
+            isClickNewComment: false
+        });
     }
 
     componentDidMount(){
@@ -31,6 +45,7 @@ class PostDetail extends Component {
 
     render(){
         const {post, comments} = this.props;
+        const {isClickNewComment} = this.state;
         return (
             <div className="container is-fluid">
                 <Navbar/>
@@ -79,7 +94,7 @@ class PostDetail extends Component {
                     
                 </nav>
                 <CommentList comments={comments}/>
-                
+                <CommentNewFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal}/>
             </div>
         );
     }
