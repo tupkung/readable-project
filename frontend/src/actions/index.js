@@ -1,6 +1,7 @@
 import * as ReadableAPIUtil from '../utils/Api';
 
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const REMOVE_POST = 'REMOVE_POST';
 export const CREATE_POST = 'CREATE_POST';
@@ -12,6 +13,8 @@ export const UPDATE_CATEGORY_FILTER = 'UPDATE_CATEGORY_FILTER';
 
 export const RECEIVE_POST_DETAIL = 'RECEIVE_POST_DETAIL';
 export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
+export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE';
+export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 
 export const receiveCategories = (categories) => ({
         type: RECEIVE_CATEGORIES,
@@ -38,6 +41,11 @@ export const removePost = (post) => ({
         post
     });
 
+export const removeComment = (comment) => ({
+        type: REMOVE_COMMENT,
+        comment
+    });
+
 export const createPost = (newPost) => ({
         type: CREATE_POST,
         newPost
@@ -51,6 +59,11 @@ export const updatePost = (updatePost) => ({
 export const updatePostVote = (post) => ({
         type: UPDATE_POST_VOTE,
         post
+    });
+
+export const updateCommentVote = (comment) => ({
+        type: UPDATE_COMMENT_VOTE,
+        comment
     });
 
 export const updateOrderVoteScore = (post) => ({
@@ -117,11 +130,11 @@ export const fetchPosts = () => (dispatch, getState) => {
             dispatch(receivePosts(posts));
         };
         if(category.length) {
-            ReadableAPIUtil
+            return ReadableAPIUtil
                 .fetchPostsByCategory(category)
                 .then(onReceivePosts)
         }else{
-            ReadableAPIUtil
+            return ReadableAPIUtil
             .fetchPosts()
             .then(onReceivePosts);
         }
@@ -131,6 +144,12 @@ export const deletePost = (id) => dispatch => (
         ReadableAPIUtil
             .deletePost(id)
             .then(post => dispatch(removePost(post)))
+    );
+
+export const deleteComment = (id) => dispatch => (
+        ReadableAPIUtil
+            .deleteComment(id)
+            .then(comment => dispatch(removeComment(comment)))
     );
 
 export const searchCategories = (query) => dispatch => (
@@ -172,6 +191,18 @@ export const votePostDown = (id) => dispatch => (
             .then(post => dispatch(updatePostVote(post)))
     );
 
+export const voteCommentUp = (id) => dispatch => (
+        ReadableAPIUtil
+            .voteCommentUp(id)
+            .then(comment => dispatch(updateCommentVote(comment)))
+    );
+
+export const voteCommentDown = (id) => dispatch => (
+        ReadableAPIUtil
+            .voteCommentDown(id)
+            .then(comment => dispatch(updateCommentVote(comment)))
+    );
+
 export const fetchPost = (id) => dispatch => (
         ReadableAPIUtil
             .fetchPost(id)
@@ -179,8 +210,15 @@ export const fetchPost = (id) => dispatch => (
                 dispatch(receivePostDetail(post));})
     );
 
-export const fetchPostComments = (id) => dispatch => (
-        ReadableAPIUtil
+export const fetchPostComments = (id) => dispatch => {
+        const onReceiveComments = (comments) => {
+            comments.sort((a,b) => {
+                return -1 * (a.voteScore - b.voteScore);
+            });
+
+            dispatch(receivePostComments(comments));
+        };
+        return ReadableAPIUtil
             .fetchPostComments(id)
-            .then(comments => dispatch(receivePostComments(comments)))
-    );
+            .then(onReceiveComments);
+    };

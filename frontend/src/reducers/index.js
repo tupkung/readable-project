@@ -9,7 +9,9 @@ import {
     UPDATE_ORDER_VOTE_SCORE,
     UPDATE_CATEGORY_FILTER,
     RECEIVE_POST_COMMENTS,
-    RECEIVE_POST_DETAIL
+    RECEIVE_POST_DETAIL,
+    UPDATE_COMMENT_VOTE,
+    REMOVE_COMMENT
 } from '../actions';
 
 import {combineReducers} from 'redux';
@@ -134,6 +136,22 @@ function comment (state={comments:[]}, action) {
             return {
                 ...state,
                 comments
+            };
+        case UPDATE_COMMENT_VOTE:
+            const updatedComments = state.comments.map(comment => {
+                if(comment.id !== action.comment.id){
+                    return comment;
+                }
+                return Object.assign({}, comment, action.comment);
+            });
+            return {
+                ...state,
+                comments: updatedComments
+            };
+        case REMOVE_COMMENT:
+            return {
+                ...state,
+                comments: state.comments.filter(c => c.id !== action.comment.id && action.comment.deleted)
             };
         default:
             return state;

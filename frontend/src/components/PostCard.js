@@ -8,7 +8,7 @@ import {deletePost,
     votePostDown} from '../actions';
 import moment from 'moment';
 import {withRouter, Link, Redirect} from 'react-router-dom';
-import ConfirmRemovePostModal from '../components/ConfirmRemovePostModal';
+import ConfirmRemoveModal from '../components/ConfirmRemoveModal';
 import EditPostFormModal from '../components/EditPostFormModal';
 
 class PostCard extends Component {
@@ -255,10 +255,10 @@ class PostCard extends Component {
                     handleInputChange={this.handleInputChange}
                 />
 
-            <ConfirmRemovePostModal
+            <ConfirmRemoveModal
                 isRemoveClick={isRemoveClick}
                 closeConfirmModal={this.closeConfirmModal}
-                removePost={this.removePost}
+                onRemoveClick={this.removePost}
             />
         </div>
         );

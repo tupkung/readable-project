@@ -53,6 +53,23 @@ export function votePostDown(id) {
         .then((res) => res.json());
 }
 
+export function voteCommentUp(id) {
+    const voteCommentUpOptions = Object.assign({}, defaultPostOptions, {body: JSON.stringify({option: "upVote"})});
+    return fetch(`http://localhost:3001/comments/${id}`, voteCommentUpOptions)
+        .then((res) => res.json());
+}
+
+export function voteCommentDown(id) {
+    const voteCommentDownOptions = Object.assign({}, defaultPostOptions, {body: JSON.stringify({option: "downVote"})});
+    return fetch(`http://localhost:3001/comments/${id}`, voteCommentDownOptions)
+        .then((res) => res.json());
+}
+
+export function deleteComment(id) {
+    return fetch(`http://localhost:3001/comments/${id}`, defaultDeleteOptions)
+        .then((res) => res.json());
+}
+
 export function fetchPostComments(id) {
     return fetch(`http://localhost:3001/posts/${id}/comments`, defaultGetOptions)
         .then((res) => res.json());
