@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {FaInfoCircle, FaTimesCircleO, FaChevronUp, FaChevronDown, FaEdit,FaCommentO  } from 'react-icons/lib/fa';
+import {FaTimesCircleO, FaChevronUp, FaChevronDown, FaEdit,FaCommentO  } from 'react-icons/lib/fa';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {withRouter, Link, Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import ConfirmRemoveModal from '../components/ConfirmRemoveModal';
 import {voteCommentUp, voteCommentDown, deleteComment} from '../actions';
 

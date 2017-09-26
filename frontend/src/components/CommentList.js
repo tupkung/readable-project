@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import CommentCard from '../components/CommentCard';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
 
 export default class CommentList extends Component {
     render() {
@@ -12,7 +10,7 @@ export default class CommentList extends Component {
                 {
                     comments ?
                         comments.map(comment => (
-                            <CommentCard comment={comment} />
+                            <CommentCard comment={comment} key={comment.id}/>
                         ))
                         : ""
                 }
