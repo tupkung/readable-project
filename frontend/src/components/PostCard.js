@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FaInfoCircle, FaTimesCircleO, FaChevronUp, FaChevronDown, FaEdit,  } from 'react-icons/lib/fa';
+import {FaInfoCircle, FaTimesCircleO, FaChevronUp, FaChevronDown, FaEdit,  FaComments} from 'react-icons/lib/fa';
 import {capitalize} from '../utils/helpers';
 import {connect} from 'react-redux';
 import {deletePost, 
@@ -178,6 +178,9 @@ class PostCard extends Component {
                                 </p>
                                 <p>
                                     {post.body ? post.body : ""}
+                                </p>
+                                <p>
+                                    <small><span style={{color:"#58BBD5"}}><FaComments size={18}/></span> {post.commentsNumber} comments</small>
                                 </p>
                             </div>
                             </div>

@@ -129,13 +129,28 @@ export const fetchPosts = () => (dispatch, getState) => {
             
             dispatch(receivePosts(posts));
         };
+
+        const getTheComments = (posts) => {
+            let promises = posts.map(post=>(
+                ReadableAPIUtil
+                    .fetchPostComments(post.id)
+                    .then(comments => {
+                        post.commentsNumber = comments.length;
+                        return post;
+                    })
+            ));
+            return Promise.all(promises);   
+        };
+
         if(category.length) {
             return ReadableAPIUtil
                 .fetchPostsByCategory(category)
-                .then(onReceivePosts)
+                .then(getTheComments)
+                .then(onReceivePosts);
         }else{
             return ReadableAPIUtil
             .fetchPosts()
+            .then(getTheComments)
             .then(onReceivePosts);
         }
     };
