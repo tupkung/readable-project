@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {FaPlusCircle, FaArrowDown, FaArrowUp} from 'react-icons/lib/fa';
 import {connect} from 'react-redux';
 import {
-    fetchPosts, 
-    changeCategoryFilter,
+    fetchPosts,
+    changeCategoryFilter, 
     changeOrderVoteScore,
     changeOrderTimeStamp} from '../actions';
 
@@ -22,22 +22,15 @@ class PostList extends Component {
         super(props);
 
         this.openNewPostModal = this.openNewPostModal.bind(this);
-        this.clearFilterCategory = this.clearFilterCategory.bind(this);
         this.orderByVoteScore = this.orderByVoteScore.bind(this);
         this.orderByTimeStamp = this.orderByTimeStamp.bind(this);
         this.onCloseNewPostModal = this.onCloseNewPostModal.bind(this);
     }
 
     componentDidMount() {
-        const {fetchPosts} = this.props;
-        fetchPosts();
-    }
-
-    
-    clearFilterCategory(event) {
-        event.preventDefault();
-        const {changeCategoryFilter} = this.props;
-        changeCategoryFilter("");
+        const {changeCategoryFilter, categoryName=""} = this.props;
+        
+        changeCategoryFilter(categoryName);
     }
 
     orderByVoteScore(event) {
@@ -92,12 +85,11 @@ class PostList extends Component {
                             </span>
                         </button>
                     </div>
-                    </div>
+                </div>
                     
                     
                 </div>
                 <div className="panel-tabs">
-                    <a onClick={this.clearFilterCategory}>show all</a>
                     <a onClick={this.orderByVoteScore}>vote score {orderVoteScore === "" ? "" : (orderVoteScore === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
                     <a onClick={this.orderByTimeStamp}>timestamp {orderTimeStamp === "" ? "" : (orderTimeStamp === "asc" ? <FaArrowDown/> : <FaArrowUp/>)}</a>
                 </div>
@@ -134,7 +126,7 @@ const mapStateToProps = ({post, category}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchPosts: () => dispatch(fetchPosts()),
-    changeCategoryFilter: (category) => dispatch(changeCategoryFilter(category)),
+    changeCategoryFilter: (query) => dispatch(changeCategoryFilter(query)),
     changeOrderVoteScore: () => dispatch(changeOrderVoteScore()),
     changeOrderTimeStamp: () => dispatch(changeOrderTimeStamp())
 });

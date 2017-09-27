@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
 import Root from './root';
 import PostDetail from './postDetail';
+import Category from './category';
 
 class App extends Component {
   render() {
@@ -11,8 +12,11 @@ class App extends Component {
         <Route exact path="/" render={()=>(
             <Root/>
         )}/>
-        <Route path="/postDetail/:id" component={({match})=>(
+        <Route exact path="/:category/:id" component={({match})=>(
             <PostDetail match={match}/>
+        )}/>
+        <Route exact path="/:category" component={({match}) => (
+            <Category match={match}/>
         )}/>
       </div>
     );

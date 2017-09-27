@@ -171,7 +171,7 @@ class PostCard extends Component {
                             <div className="column is-10">
                             <div className="content">
                                 <p>
-                                    <strong><Link to={`/postDetail/${post.id}`}>{post.title}</Link></strong>
+                                    <strong><Link to={`/${post.category}/${post.id}`}>{post.title}</Link></strong>
                                     <br/>
                                     <small>submitted {moment(new Date(post.timestamp)).startOf('hour').fromNow()} by {post.author} </small> 
                                     <span className="tag is-info is-rounded">{capitalize(post.category)}</span>

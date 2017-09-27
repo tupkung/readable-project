@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
-import CategoriesPanel from '../components/CategoriesPanel';
 import Navbar from '../components/Navbar';
 import PostList from '../components/PostList';
 import {FaRocket} from 'react-icons/lib/fa';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
+import {changeCategoryFilter} from '../actions';
 
 
-export default class Root extends Component {
+class Root extends Component {
+
+    componentDidMount(){
+        const {changeCategoryFilter} = this.props;
+        changeCategoryFilter("");
+    }
+
     render() {
         return (
             <div className="container is-fluid">
@@ -28,9 +36,6 @@ export default class Root extends Component {
                     </div>
                 </section>
                 <div className="columns">
-                    <div className="column is-one-quarter">
-                        <CategoriesPanel/>
-                    </div>
                     <div className="column">
                         <PostList/>
                     </div>
@@ -39,3 +44,12 @@ export default class Root extends Component {
         );
     }    
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    changeCategoryFilter: (query) => dispatch(changeCategoryFilter(query))
+});
+
+export default withRouter(connect(
+    null,
+    mapDispatchToProps
+)(Root));
