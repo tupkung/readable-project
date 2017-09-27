@@ -9,8 +9,6 @@ import {withRouter} from 'react-router-dom';
 
 class CategoriesPanel extends Component {
 
-    
-
     constructor(props){
         super(props);
 
@@ -45,7 +43,7 @@ class CategoriesPanel extends Component {
 
 
     render() {
-        const {categories} = this.props;
+        const {categories, filteredCategory} = this.props;
 
         return (
             <nav className="panel">
@@ -63,7 +61,7 @@ class CategoriesPanel extends Component {
                 
                 {
                     categories.map((category) => (
-                        <a className="panel-block" key={category.path} onClick={(event) => this.selectCategory(event, category)}>
+                        <a className={`panel-block ${(category && (category.name === filteredCategory)) ? "is-active" : ""}`} key={category.path} onClick={(event) => this.selectCategory(event, category)}>
                             <span className="panel-icon">
                                 <FaAngleDoubleRight/>
                             </span>
@@ -77,7 +75,8 @@ class CategoriesPanel extends Component {
 }
 
 const mapStateToProps = ({category, post}) => ({
-    categories: category.categories
+    categories: category.categories,
+    filteredCategory: post.category
 });
 
 const mapDispatchToProps = (dispatch) => ({

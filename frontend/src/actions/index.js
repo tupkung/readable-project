@@ -15,6 +15,8 @@ export const RECEIVE_POST_DETAIL = 'RECEIVE_POST_DETAIL';
 export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
 export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 
 export const receiveCategories = (categories) => ({
         type: RECEIVE_CATEGORIES,
@@ -49,6 +51,16 @@ export const removeComment = (comment) => ({
 export const createPost = (newPost) => ({
         type: CREATE_POST,
         newPost
+    });
+
+export const createComment = (newComment) => ({
+        type: CREATE_COMMENT,
+        newComment
+    });
+
+export const updateComment = (updateComment) => ({
+        type: UPDATE_COMMENT,
+        updateComment
     });
 
 export const updatePost = (updatePost) => ({
@@ -186,11 +198,28 @@ export const createNewPost = (newPost) => dispatch => (
             })
     );
 
+export const createNewComment = (newComment) => dispatch => (
+        ReadableAPIUtil
+            .createNewComment(newComment)
+            .then(comment => {
+                comment.isNew = true;
+                dispatch(createComment(comment))
+            })
+    );
+
 export const editPost = (editPost) => dispatch => (
         ReadableAPIUtil
             .updatePost(editPost)
             .then(post => {
                 dispatch(updatePost(post))
+            })
+    );
+
+export const editComment = (editComment) => dispatch => (
+        ReadableAPIUtil
+            .updateComment(editComment)
+            .then(comment => {
+                dispatch(updateComment(comment))
             })
     );
 

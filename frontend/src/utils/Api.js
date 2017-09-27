@@ -76,18 +76,26 @@ export function fetchPostComments(id) {
 }
 
 export function createNewPost(newPost) {
-    let data = new FormData();
-    data.append("json", JSON.stringify(newPost));
     const newPostOptions = Object.assign({}, defaultPostOptions, {body: JSON.stringify(newPost)});
     return fetch(`http://localhost:3001/posts`, newPostOptions)
         .then((res) => res.json());
 }
 
 export function updatePost(updatePost) {
-    let data = new FormData();
-    data.append("json", JSON.stringify(updatePost));
     const newPutOptions = Object.assign({}, defaultPutOptions, {body: JSON.stringify(updatePost)});
     return fetch(`http://localhost:3001/posts/${updatePost.id}`, newPutOptions)
         .then((res) => res.json());
 
+}
+
+export function createNewComment(newComment) {
+    const newCommentOptions = Object.assign({}, defaultPostOptions, {body: JSON.stringify(newComment)});
+    return fetch(`http://localhost:3001/comments`, newCommentOptions)
+        .then((res) => res.json());
+}
+
+export function updateComment(updateComment) {
+    const updateCommentOptions = Object.assign({}, defaultPutOptions, {body: JSON.stringify(updateComment)});
+    return fetch(`http://localhost:3001/comments/${updateComment.id}`, updateCommentOptions)
+        .then((res) => res.json());
 }

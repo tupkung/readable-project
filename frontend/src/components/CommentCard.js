@@ -4,12 +4,18 @@ import {connect} from 'react-redux';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
 import ConfirmRemoveModal from '../components/ConfirmRemoveModal';
-import {voteCommentUp, voteCommentDown, deleteComment} from '../actions';
+import {voteCommentUp, voteCommentDown, deleteComment, editComment} from '../actions';
+import EditCommentFormModal from '../components/EditCommentFormModal';
 
 class CommentCard extends Component {
     state = {
         isRemoveClick: false,
-        selectedComment: {}
+        isEditCommentClick: false,
+        selectedComment: {},
+        commentData: {
+            body: "",
+            bodyIsValid: false
+        }
     };
 
     constructor(props){
@@ -20,6 +26,21 @@ class CommentCard extends Component {
         this.removeComment = this.removeComment.bind(this);
         this.voteUp = this.voteUp.bind(this);
         this.voteDown = this.voteDown.bind(this);
+        this.closeEditCommentModal = this.closeEditCommentModal.bind(this);
+        this.saveEditComment = this.saveEditComment.bind(this);
+        this.validateComment = this.validateComment.bind(this);
+        this.openEditCommentModal = this.openEditCommentModal.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.clearCommentForm = this.clearCommentForm.bind(this);
+    }
+
+    clearCommentForm() {
+        this.setState({
+            commentData: {
+                body: "",
+                bodyIsValid: false
+            }
+        });
     }
 
     voteUp(event, id){
@@ -32,10 +53,6 @@ class CommentCard extends Component {
         event.preventDefault();
         const {voteCommentDown} = this.props;
         voteCommentDown(id);
-    }
-
-    openEditCommentModal(event, comment){
-        event.preventDefault();
     }
 
     openConfirmModal(event, comment){
@@ -62,12 +79,64 @@ class CommentCard extends Component {
         this.closeConfirmModal(event);
     }
 
+    closeEditCommentModal(event) {
+        event.preventDefault();
+        this.setState({
+            isEditCommentClick: false
+        });
+    }
+
+    validateComment() {
+        let result = true;
+        const {commentData} = this.state;
+        result &= commentData.bodyIsValid;
+        return result;
+    }
+
+    openEditCommentModal(event, comment) {
+        event.preventDefault();
+        const commentData = Object.assign({}, comment, {bodyIsValid: true});
+        this.setState({
+            isEditCommentClick: true,
+            commentData
+        });
+    }
+
+    saveEditComment(event) {
+        event.preventDefault();
+        if(this.validateComment()){
+            const {editComment} = this.props;
+            const {commentData} = this.state;
+            editComment(commentData);
+            this.clearCommentForm();
+            this.closeEditCommentModal(event);
+        }
+    }
+
+    handleInputChange(event) {
+        event.preventDefault();
+        
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        let {commentData} = this.state;
+        if(value !== "") {
+            commentData[name+"IsValid"] = true;
+        }else{
+            commentData[name+"IsValid"] = false;
+        }
+        commentData[name] = value;
+        this.setState({
+            commentData
+        });
+    }
+
     render() {
         const {comment} = this.props;
-        const {isRemoveClick} = this.state;
+        const {isRemoveClick, isEditCommentClick, commentData} = this.state;
         return (
             <div>
-                <div className="box" key={comment.id}>
+                <div className="box"style={(comment.isNew ? {backgroundColor: "#F5F5F5"} : {})} key={comment.id}>
                     <div className="media">
                         <div className="media-left">
                             <figure className="icon is-48x48" style={{color:"#00D1B2"}}>
@@ -151,6 +220,13 @@ class CommentCard extends Component {
                     </div>
                 </div>
 
+                <EditCommentFormModal
+                    isEditCommentClick={isEditCommentClick} 
+                    commentData={commentData} 
+                    closeEditCommentModal={this.closeEditCommentModal} 
+                    saveEditComment={this.saveEditComment}
+                    handleInputChange={this.handleInputChange}
+                />
                 <ConfirmRemoveModal
                     isRemoveClick={isRemoveClick}
                     closeConfirmModal={this.closeConfirmModal}
@@ -164,7 +240,8 @@ class CommentCard extends Component {
 const mapDispatchToProps = (dispatch) => ({
     voteCommentUp: (id) => dispatch(voteCommentUp(id)),
     voteCommentDown: (id) => dispatch(voteCommentDown(id)),
-    deleteComment: (id) => dispatch(deleteComment(id))
+    deleteComment: (id) => dispatch(deleteComment(id)),
+    editComment: (comment) => dispatch(editComment(comment))
 });
 
 export default withRouter(connect(

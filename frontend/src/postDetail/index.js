@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import CommentList from '../components/CommentList';
-import CommentNewFormModal from '../components/CommentNewFormModal';
+import NewCommentFormModal from '../components/NewCommentFormModal';
 
 
 
@@ -94,7 +94,7 @@ class PostDetail extends Component {
                     
                 </nav>
                 <CommentList comments={comments}/>
-                <CommentNewFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal}/>
+                <NewCommentFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal} parentId={post && post.id}/>
             </div>
         );
     }

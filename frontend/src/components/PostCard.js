@@ -130,7 +130,7 @@ class PostCard extends Component {
         event.preventDefault();
         if(this.validatePost()){
             const {editPost} = this.props;
-            let {postData} = this.state;
+            const {postData} = this.state;
             editPost(postData);
             this.clearPostForm();
             this.closeEditPostModal(event);
@@ -151,7 +151,7 @@ class PostCard extends Component {
     
     render() {
         const {post} = this.props;
-        const {isEditPostClick, isRemoveClick} = this.state;
+        const {isEditPostClick, isRemoveClick, postData} = this.state;
         if(!post){
             return <Redirect to="/"/>
         }
@@ -252,7 +252,7 @@ class PostCard extends Component {
 
             <EditPostFormModal 
                     isEditPostClick={isEditPostClick} 
-                    postData={this.state.postData} 
+                    postData={postData} 
                     closeEditPostModal={this.closeEditPostModal} 
                     saveEditPost={this.saveEditPost}
                     handleInputChange={this.handleInputChange}

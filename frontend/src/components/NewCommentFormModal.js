@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import uuidv1 from 'uuid/v1';
+import {createNewComment} from '../actions';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
-export default class CommentNewFormModal extends Component {
+class NewCommentFormModal extends Component {
     state = {
         commentData: {
             body: "",
@@ -18,6 +21,7 @@ export default class CommentNewFormModal extends Component {
         this.clearCommentForm = this.clearCommentForm.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.validateComment = this.validateComment.bind(this);
+        this.saveNewComment = this.saveNewComment.bind(this);
     }
 
     clearCommentForm() {
@@ -41,12 +45,13 @@ export default class CommentNewFormModal extends Component {
         event.preventDefault();
         if(this.validateComment()){
             let {commentData} = this.state;
+            let {parentId} = this.props;
+            const {createComment} = this.props;
             
             commentData.id = uuidv1();
             commentData.timestamp = Date.now();
-            //TODO: implement this to post the new comment to server
-            //const {createPost} = this.props;
-            //createPost(Object.assign({}, postData));
+            commentData.parentId = parentId;
+            createComment(Object.assign({}, commentData));
             this.clearCommentForm();
             this.closeNewCommentModal(event);
         }
@@ -120,3 +125,12 @@ export default class CommentNewFormModal extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+    createComment: (newComment) => dispatch(createNewComment(newComment))
+});
+
+export default withRouter(connect(
+    null,
+    mapDispatchToProps
+)(NewCommentFormModal));
