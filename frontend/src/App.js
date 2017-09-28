@@ -5,6 +5,9 @@ import Root from './root';
 import PostDetail from './postDetail';
 import Category from './category';
 
+/**
+ * @description Represents a main application
+ */
 class App extends Component {
   render() {
     return (

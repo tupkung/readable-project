@@ -5,6 +5,9 @@ import {withRouter} from 'react-router-dom';
 import uuidv1 from 'uuid/v1';
 import {connect} from 'react-redux';
 
+/**
+ * @description Represents a new post form modal
+ */
 class NewPostFormModal extends Component {
     state = {
         postData: {

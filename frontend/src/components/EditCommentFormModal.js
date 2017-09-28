@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * @description Represents a edit comment form modal
+ * @param {boolean} isEditCommentClick - For checking to user is click edit button.
+ * @param {function} closeEditCommentModal - Call-back function to be called when user click a close button in the modal.
+ * @param {object} commentData - The object data for showing in the form modal.
+ * @param {function} saveEditComment - Call-back function to be called when user click a Save button in the modal.
+ */
 const EditCommentFormModal = ({isEditCommentClick, closeEditCommentModal, commentData, saveEditComment, handleInputChange}) => (
     <div className={"modal " + (isEditCommentClick ? "is-active" : "")}>
         <div className="modal-background"></div>

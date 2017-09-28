@@ -1,6 +1,11 @@
 import React from 'react';
 
-
+/**
+ * @description Represents a confirm remove modal
+ * @param {boolean} isRemoveClick - For checking to user is click remove button.
+ * @param {function} closeConfirmModal - Call-back function to be called when user click Close or Cancel button in the modal.
+ * @param {function} onRemoveClick - Call-back function to be called when user click Yes button in the modal.
+ */
 const ConfirmRemoveModal = ({isRemoveClick, closeConfirmModal, onRemoveClick}) => (
     <div className={"modal " + (isRemoveClick ? "is-active" : "")}>
         <div className="modal-background"></div>

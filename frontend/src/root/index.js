@@ -6,7 +6,9 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {changeCategoryFilter} from '../actions';
 
-
+/**
+ * @description Represents a root page
+ */
 class Root extends Component {
 
     componentDidMount(){

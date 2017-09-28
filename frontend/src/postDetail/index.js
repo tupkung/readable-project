@@ -9,7 +9,9 @@ import CommentList from '../components/CommentList';
 import NewCommentFormModal from '../components/NewCommentFormModal';
 
 
-
+/**
+ * @description Represents a Post detail page.
+ */
 class PostDetail extends Component {
 
     state = {

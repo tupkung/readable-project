@@ -12,7 +12,9 @@ import NewPostFormModal from '../components/NewPostFormModal';
 import PostCard from '../components/PostCard';
 
 
-
+/**
+ * @description Represents a post list which is shown the list of PostCards
+ */
 class PostList extends Component {
     state = {
         isNewPostClick: false

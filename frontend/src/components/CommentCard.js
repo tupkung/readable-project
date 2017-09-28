@@ -7,6 +7,9 @@ import ConfirmRemoveModal from '../components/ConfirmRemoveModal';
 import {voteCommentUp, voteCommentDown, deleteComment, editComment} from '../actions';
 import EditCommentFormModal from '../components/EditCommentFormModal';
 
+/**
+ * @description Represents the Comment card
+ */
 class CommentCard extends Component {
     state = {
         isRemoveClick: false,

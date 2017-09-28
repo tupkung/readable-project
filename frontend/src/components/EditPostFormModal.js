@@ -1,5 +1,13 @@
 import React from 'react';
 
+/**
+ * 
+ * @param {boolean} isEditPostClick - For checking to user is click edit button.
+ * @param {function} closeEditPostModal - Call-back function to be called when user click a close button in the modal.
+ * @param {object} postData - The object data to be bound in form modal. 
+ * @param {function} saveEditPost - Call-back function to be called when user click a save button.
+ * @param {function} handleInputChange - Call-back function to be called when user changes the input in the form.
+ */
 const EditPostFormModal = ({isEditPostClick, closeEditPostModal, postData, saveEditPost, handleInputChange}) => (
     <div className={"modal " + (isEditPostClick ? "is-active" : "")}>
         <div className="modal-background"></div>

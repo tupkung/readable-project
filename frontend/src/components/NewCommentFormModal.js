@@ -4,6 +4,9 @@ import {createNewComment} from '../actions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 
+/**
+ * @description Represnets a new comment form modal
+ */
 class NewCommentFormModal extends Component {
     state = {
         commentData: {

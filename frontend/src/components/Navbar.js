@@ -7,6 +7,9 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {capitalize} from '../utils/helpers';
 
+/**
+ * @description Represents a navigation bar
+ */
 class Navbar extends Component {
     
     componentDidMount() {

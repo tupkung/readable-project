@@ -11,6 +11,9 @@ import {withRouter, Link, Redirect} from 'react-router-dom';
 import ConfirmRemoveModal from '../components/ConfirmRemoveModal';
 import EditPostFormModal from '../components/EditPostFormModal';
 
+/**
+ * @description Represents a post card for showing under the post list
+ */
 class PostCard extends Component {
 
     state = {

@@ -1,18 +1,25 @@
+
+// Set Default Header for using to request to API server
 const defaultHeaders = new Headers();
 defaultHeaders.append("Content-Type", "application/json");
 defaultHeaders.append("Authorization", "Nothing to do");
 
+// Set Default Options
 const defaultOptions = {
     headers: defaultHeaders,
     mode: 'cors'
 };
 
+// Set Default Method Get options
 const defaultGetOptions = Object.assign(Object.assign({}, defaultOptions), {method: 'GET'});
 
+// Set Default Method Delete options
 const defaultDeleteOptions = Object.assign(Object.assign({}, defaultOptions), {method: 'DELETE'});
 
+// Set Default Method Post options
 const defaultPostOptions = Object.assign(Object.assign({}, defaultOptions), {method: "POST"});
 
+// Set Default Method Put options
 const defaultPutOptions = Object.assign(Object.assign({}, defaultOptions), {method: "PUT"});
 
 export function fetchCategories() {
