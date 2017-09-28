@@ -9,7 +9,7 @@ import {changeCategoryFilter} from '../actions';
 /**
  * @description Represents a root page
  */
-class Root extends Component {
+class RootContainer extends Component {
 
     componentDidMount(){
         const {changeCategoryFilter} = this.props;
@@ -54,4 +54,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default withRouter(connect(
     null,
     mapDispatchToProps
-)(Root));
+)(RootContainer));

@@ -54,16 +54,16 @@ class NewPostFormModal extends Component {
         onCloseModal();
     }
 
-
-    
+   
 
     saveNewPost(event) {
         event.preventDefault();
         if(this.validatePost()){
             let {postData} = this.state;
-            const {createPost} = this.props;
+            const {createPost, category} = this.props;
             postData.id = uuidv1();
             postData.timestamp = Date.now();
+            postData.category = (category.length > 0) ? category : postData.category;
             createPost(Object.assign({}, postData));
             this.clearPostForm();
             this.closeNewPostModal(event);
@@ -72,7 +72,7 @@ class NewPostFormModal extends Component {
 
     handleInputChange(event) {
         event.preventDefault();
-
+        
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -91,12 +91,13 @@ class NewPostFormModal extends Component {
     validatePost() {
         let result = true;
         const {postData} = this.state;
-        result &= postData.bodyIsValid & postData.titleIsValid & postData.authorIsValid & postData.categoryIsValid;
+        const {category} = this.props;
+        result &= postData.bodyIsValid & postData.titleIsValid & postData.authorIsValid & (category.length === 0) ? postData.categoryIsValid : true;
         return result;
     }
 
     render(){
-        const {openModal, categories} = this.props;
+        const {openModal, categories, category} = this.props;
         const {postData} = this.state;
         return (
             <div className={"modal " + (openModal ? "is-active" : "")}>
@@ -123,22 +124,26 @@ class NewPostFormModal extends Component {
                             </div>
                             <p className={"help is-danger " + (postData.bodyIsValid ? "hidden" : "")}>This body is required</p>
                         </div>
-                        <div className="field">
-                            <label className="label">Category</label>
-                            <div className="control">
-                            <div className={"select " + (postData.categoryIsValid ? "": "is-danger")}>
-                                <select name="category" value={postData.category} onChange={this.handleInputChange}>
-                                    <option value="">---Select Category---</option>
-                                    {
-                                        categories.map(category=>(
-                                            <option key={category.name} value={category.name}>{capitalize(category.name)}</option>
-                                        ))
-                                    }
-                                </select>
+                        {
+                            (category.length === 0) ? 
+                            <div className="field">
+                                <label className="label">Category</label>
+                                <div className="control">
+                                    <div className={"select " + (postData.categoryIsValid ? "": "is-danger")}>
+                                        <select name="category" value={postData.category} onChange={this.handleInputChange}>
+                                            <option value="">---Select Category---</option>
+                                            {
+                                                categories.map(category=>(
+                                                    <option key={category.name} value={category.name}>{capitalize(category.name)}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <p className={"help is-danger " + (postData.categoryIsValid ? "hidden" : "")}>This category is required</p>
-                        </div>
+                                <p className={"help is-danger " + (postData.categoryIsValid ? "hidden" : "")}>This category is required</p>
+                            </div>:""
+                        }
+                        
                         <div className="field">
                             <label className="label">Author</label>
                             <div className="control">
@@ -158,8 +163,9 @@ class NewPostFormModal extends Component {
         );
     }
 }
-const mapStateToProps = ({category}) => ({
-    categories: category.categories
+const mapStateToProps = ({category, post}) => ({
+    categories: category.categories,
+    category: post.category
 });
 const mapDispatchToProps = (dispatch) => ({
     createPost: (postData) => dispatch(createNewPost(postData))

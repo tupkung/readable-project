@@ -12,7 +12,7 @@ import NewCommentFormModal from '../components/NewCommentFormModal';
 /**
  * @description Represents a Post detail page.
  */
-class PostDetail extends Component {
+class PostDetailContainer extends Component {
 
     state = {
         isClickNewComment: false
@@ -115,4 +115,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(PostDetail));
+)(PostDetailContainer));

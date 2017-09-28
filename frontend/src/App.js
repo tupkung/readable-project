@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import {Route} from 'react-router-dom';
-import Root from './root';
-import PostDetail from './postDetail';
-import Category from './category';
+import RootContainer from './RootContainer';
+import PostDetailContainer from './PostDetailContainer';
+import CategoryContainer from './CategoryContainer';
 
 /**
  * @description Represents a main application
@@ -13,13 +13,13 @@ class App extends Component {
     return (
       <div>
         <Route exact path="/" render={()=>(
-            <Root/>
+            <RootContainer/>
         )}/>
         <Route exact path="/:category/:id" component={({match})=>(
-            <PostDetail match={match}/>
+            <PostDetailContainer match={match}/>
         )}/>
         <Route exact path="/:category" component={({match}) => (
-            <Category match={match}/>
+            <CategoryContainer match={match}/>
         )}/>
       </div>
     );
