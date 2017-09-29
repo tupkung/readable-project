@@ -7,6 +7,7 @@ import {withRouter} from 'react-router-dom';
 import PostCard from '../components/PostCard';
 import CommentList from '../components/CommentList';
 import NewCommentFormModal from '../components/NewCommentFormModal';
+import {Redirect} from 'react-router-dom';
 
 
 /**
@@ -49,56 +50,60 @@ class PostDetailContainer extends Component {
         const {post, comments} = this.props;
         const {isClickNewComment} = this.state;
         return (
-            <div className="container is-fluid">
-                <Navbar/>
-
-
-                <nav className="panel" style={{marginTop: "5px"}}>
-                    <div className="panel-heading">
-                        <div className="columns is-mobile">
-                            <div className="column">
-                                Post Detail
-                            </div>
-                            <div className="column" style={{textAlign: "right"}}>
-                                
+                <div className="container is-fluid">
+                    <Navbar/>
+    
+    
+                    <nav className="panel" style={{marginTop: "5px"}}>
+                        <div className="panel-heading">
+                            <div className="columns is-mobile">
+                                <div className="column">
+                                    Post Detail
+                                </div>
+                                <div className="column" style={{textAlign: "right"}}>
+                                    
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    
-                </nav>
-                { (post !== undefined) ?
-                        <PostCard post={post}/>
-                        : ""
+                        
+                        
+                    </nav>
+                    { (post !== undefined) ?
+                            <PostCard post={post}/>
+                            : ""
+                        }
+                    <nav className="panel" style={{marginTop: "5px"}}>
+                        <div className="panel-heading">
+                            <div className="columns is-mobile">
+                                <div className="column">
+                                    Comments
+                                </div>
+                                <div className="column" style={{textAlign: "right"}}>
+                                    <button className="button " 
+                                        style={{backgroundColor: "#55acee", 
+                                            color: "white", 
+                                            borderColor: "transparent"}}
+                                        onClick={this.openNewCommentModal}>
+                                        <span className="icon" >
+                                            <FaPlusCircle/>
+                                        </span>
+                                        <span>
+                                            New Comment
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </nav>
+                    <CommentList comments={comments}/>
+                    <NewCommentFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal} parentId={post && post.id}/>
+
+                    {
+                        post ? "" : <Redirect to={'/error/page/404'}/>
                     }
-                <nav className="panel" style={{marginTop: "5px"}}>
-                    <div className="panel-heading">
-                        <div className="columns is-mobile">
-                            <div className="column">
-                                Comments
-                            </div>
-                            <div className="column" style={{textAlign: "right"}}>
-                                <button className="button " 
-                                    style={{backgroundColor: "#55acee", 
-                                        color: "white", 
-                                        borderColor: "transparent"}}
-                                    onClick={this.openNewCommentModal}>
-                                    <span className="icon" >
-                                        <FaPlusCircle/>
-                                    </span>
-                                    <span>
-                                        New Comment
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </nav>
-                <CommentList comments={comments}/>
-                <NewCommentFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal} parentId={post && post.id}/>
-            </div>
-        );
+                </div>
+            );
     }
 }
 
