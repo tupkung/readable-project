@@ -52,6 +52,7 @@ class PostDetailContainer extends Component {
     render(){
         const {post, comments} = this.props;
         const {isClickNewComment, isPostLoading} = this.state;
+
         return (
                 <div className="container is-fluid">
                     <Navbar/>
@@ -103,7 +104,7 @@ class PostDetailContainer extends Component {
                     <NewCommentFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal} parentId={post && post.id}/>
 
                     {
-                        ( (post && !post.error) || isPostLoading) ? "" : <Redirect to={'/error/page/404'}/>
+                        ( (post && post.hasOwnProperty("title")) || isPostLoading) ? "" : (post !== null ) ? <Redirect to={'/error/page/404'}/> : <Redirect to={'/'}/>
                     }
                 </div>
             );

@@ -1,9 +1,24 @@
 import * as ReadableAPIUtil from '../utils/Api';
 
-// category actions
+// Action Types
+import {
+    RECEIVE_CATEGORIES, 
+    UPDATE_CATEGORY_FILTER,
+    RECEIVE_POSTS,
+    REMOVE_POST,
+    CREATE_POST,
+    UPDATE_POST,
+    UPDATE_POST_VOTE,
+    UPDATE_ORDER_TIME_STAMP,
+    UPDATE_ORDER_VOTE_SCORE,
+    RECEIVE_POST_DETAIL,
+    RECEIVE_POST_COMMENTS,
+    UPDATE_COMMENT_VOTE,
+    REMOVE_COMMENT,
+    CREATE_COMMENT,
+    UPDATE_COMMENT
+} from './types';
 
-export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-export const UPDATE_CATEGORY_FILTER = 'UPDATE_CATEGORY_FILTER';
 
 // category action creators
 export const receiveCategories = (categories) => ({
@@ -26,16 +41,6 @@ export const changeCategoryFilter = (category) => (dispatch, getState) =>{
 };
 //-------------------------------------------------------------
 
-
-// post actions
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const REMOVE_POST = 'REMOVE_POST';
-export const CREATE_POST = 'CREATE_POST';
-export const UPDATE_POST = 'UPDATE_POST';
-export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE';
-export const UPDATE_ORDER_TIME_STAMP = 'UPDATE_ORDER_TIME_STAMP';
-export const UPDATE_ORDER_VOTE_SCORE = 'UPDATE_ORDER_VOTE_SCORE';
-export const RECEIVE_POST_DETAIL = 'RECEIVE_POST_DETAIL';
 
 // post action creator
 export const receivePosts = (posts) => ({
@@ -190,12 +195,6 @@ export const fetchPost = (id) => dispatch => (
 
 //----------------------------------------------------------------------------
 
-// comment actions
-export const RECEIVE_POST_COMMENTS = 'RECEIVE_POST_COMMENTS';
-export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE';
-export const REMOVE_COMMENT = 'REMOVE_COMMENT';
-export const CREATE_COMMENT = 'CREATE_COMMENT';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 
 // comment action creator
 export const receivePostComments = (comments) => ({
