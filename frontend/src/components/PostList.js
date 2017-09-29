@@ -27,11 +27,8 @@ class PostList extends Component {
         this.orderByVoteScore = this.orderByVoteScore.bind(this);
         this.orderByTimeStamp = this.orderByTimeStamp.bind(this);
         this.onCloseNewPostModal = this.onCloseNewPostModal.bind(this);
-    }
 
-    componentDidMount() {
         const {changeCategoryFilter, categoryName=""} = this.props;
-        
         changeCategoryFilter(categoryName);
     }
 

@@ -14,9 +14,10 @@ import {Redirect} from 'react-router-dom';
  * @description Represents a Post detail page.
  */
 class PostDetailContainer extends Component {
-
+    
     state = {
-        isClickNewComment: false
+        isClickNewComment: false, 
+        isPostLoading: true
     };
 
     constructor(props){
@@ -24,6 +25,15 @@ class PostDetailContainer extends Component {
 
         this.openNewCommentModal = this.openNewCommentModal.bind(this);
         this.onCloseCommentModal = this.onCloseCommentModal.bind(this);
+
+        const {fetchPost, fetchPostComments} = this.props;
+        const {id} = this.props.match.params;
+        fetchPost(id).then(()=>{
+            this.setState({
+                isPostLoading: false
+            });
+        });
+        fetchPostComments(id);
     }
 
     openNewCommentModal(event){
@@ -39,16 +49,9 @@ class PostDetailContainer extends Component {
         });
     }
 
-    componentDidMount(){
-        const {fetchPost, fetchPostComments} = this.props;
-        const {id} = this.props.match.params;
-        fetchPost(id);
-        fetchPostComments(id);
-    }
-
     render(){
         const {post, comments} = this.props;
-        const {isClickNewComment} = this.state;
+        const {isClickNewComment, isPostLoading} = this.state;
         return (
                 <div className="container is-fluid">
                     <Navbar/>
@@ -100,7 +103,7 @@ class PostDetailContainer extends Component {
                     <NewCommentFormModal openModal={isClickNewComment} onCloseModal={this.onCloseCommentModal} parentId={post && post.id}/>
 
                     {
-                        post ? "" : <Redirect to={'/error/page/404'}/>
+                        ( (post && !post.error) || isPostLoading) ? "" : <Redirect to={'/error/page/404'}/>
                     }
                 </div>
             );

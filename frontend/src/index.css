@@ -5,3 +5,7 @@ body {
 .hidden {
   display: none;
 }
+
+.new-comment {
+  background-color: #F5F5F5
+}

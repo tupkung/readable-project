@@ -184,7 +184,8 @@ export const fetchPost = (id) => dispatch => (
     ReadableAPIUtil
         .fetchPost(id)
         .then(post => {
-            dispatch(receivePostDetail(post));})
+            dispatch(receivePostDetail(post));
+        })
 );
 
 //----------------------------------------------------------------------------

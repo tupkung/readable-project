@@ -139,7 +139,7 @@ class CommentCard extends Component {
         const {isRemoveClick, isEditCommentClick, commentData} = this.state;
         return (
             <div>
-                <div className="box"style={(comment.isNew ? {backgroundColor: "#F5F5F5"} : {})} key={comment.id}>
+                <div className= {`box ${(comment.isNew ? "new-comment" : "")}`} key={comment.id}>
                     <div className="media">
                         <div className="media-left">
                             <figure className="icon is-48x48" style={{color:"#00D1B2"}}>

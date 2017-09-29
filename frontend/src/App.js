@@ -16,8 +16,8 @@ class App extends Component {
         <Route exact path="/" render={()=>(
             <RootContainer/>
         )}/>
-        <Route exact path="/:category/:id" component={(props)=>(
-            <PostDetailContainer {...props} />
+        <Route exact path="/:category/:id" component={(match)=>(
+            <PostDetailContainer match={match} />
         )}/>
         <Route exact path="/:category" component={({match}) => (
             <CategoryContainer match={match}/>
